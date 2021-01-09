@@ -55,6 +55,11 @@ cd grpc
 bazel build @com_google_protobuf//:protoc
 bazel build src/compiler:grpc_php_plugin
 ```
+### Install node plugins
+```sh
+cd node-client
+yarn add grpc @grpc/proto-loader
+```
 
 ## Generate Code
 ### Go server
@@ -87,4 +92,28 @@ You can run the php client to request go grpc server and get response.
 ```sh
 php php-client/main.php 
 # hello, php
+```
+### Node client
+Simply load the protofile
+```js
+// node-client/index.js
+
+const PROTO_PATH = __dirname + '/../proto/greeter.proto'
+const grpc = require('grpc')
+const protoLoader = require('@grpc/proto-loader')
+const packageDefinition = protoLoader.loadSync(PROTO_PATH)
+const greeter = grpc.loadPackageDefinition(packageDefinition).greeter
+const client = new greeter.Greeter("localhost:9090", grpc.credentials.createInsecure())
+client.SayHello({name: "node"}, (error, resp) => {
+    if (error) {
+        console.log(error)
+        return
+    }
+    console.log(resp)
+})
+```
+Then run in console.
+```sh
+node index.js
+# { msg: 'hello, node' }
 ```

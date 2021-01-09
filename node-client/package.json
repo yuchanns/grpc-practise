@@ -1,0 +1,14 @@
+{
+  "name": "yuchanns-grpc-practise",
+  "version": "0.0.0",
+  "description": "a grpc practise written in node",
+  "main": "index.js",
+  "repository": "https://github.com/yuchanns/grpc-practise/node",
+  "author": "yuchanns",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.5",
+    "grpc": "^1.24.4"
+  }
+}
