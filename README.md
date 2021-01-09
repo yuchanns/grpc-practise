@@ -4,6 +4,11 @@ grpc-practise: using go as server and php | node as client
 ## Prepare
 Clone this repository or open it on [Github Codespaces](https://github.com/codespaces).
 
+Then download submodule:
+```sh
+git submodule update --init --recursive
+```
+
 ## Install environment
 ### Install protoc
 ```sh
@@ -65,11 +70,12 @@ yarn add grpc @grpc/proto-loader
 ### Go server
 From the repository root:
 ```sh
-protoc -I ./proto --go_out=plugins=grpc:./go-server/proto/greeter ./proto/*.proto
+protoc -I ./proto -I./proto/googleapis --go_out=plugins=grpc:./go-server/proto/greeter ./proto/*.proto
+protoc -I ./proto -I./proto/googleapis --grpc-gateway_out=:./go-server/proto/greeter ./proto/*.proto
 ```
-Then a file `greeter.pb.go` shall show under the path `go-server/proto/greeter`.
+Then two files `greeter.pb.go` and `greeter.pb.gw.go` shall show under the path `go-server/proto/greeter`.
 
-You can start the server in one console and test the client request on another.
+You can start the server in first console and test the client request on the second and post a curl request on the third.
 ```sh
 # console 1
 go run .
@@ -80,11 +86,14 @@ cd go-server && go test -v .
 # --- PASS: TestSayHello (0.00s)
 # PASS
 # ok      github.com/yuchanns/grpc-practise       0.007s
+# console 3
+curl -X POST -d '{"name": "curl"}' localhost:8080/api/greeter/say_hello
+# {"msg":"hello, curl"}
 ```
 ### PHP client
 From the repository root:
 ```sh
-protoc -I ./proto --php_out=./php-client/proto --grpc_out=./php-client/proto --plugin=protoc-gen-grpc=./grpc/bazel-bin/src/compiler/grpc_php_plugin ./proto/*.proto 
+protoc -I ./proto -I./proto/googleapis --php_out=./php-client/proto --grpc_out=./php-client/proto --plugin=protoc-gen-grpc=./grpc/bazel-bin/src/compiler/grpc_php_plugin ./proto/*.proto 
 ```
 Then two folders `GPBMetadata` and `Greeter` shall show under the path `php-client/proto`
 

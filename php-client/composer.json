@@ -3,7 +3,8 @@
     "description": "a grpc practise written in php.",
     "type": "project",
     "require": {
-        "grpc/grpc": "1.34"
+        "grpc/grpc": "1.34",
+        "google/common-protos": "^1.3"
     },
     "license": "MIT",
     "authors": [
