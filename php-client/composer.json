@@ -1,0 +1,15 @@
+{
+    "name": "yuchanns/grpc-practise",
+    "description": "a grpc practise written in php.",
+    "type": "project",
+    "require": {
+        "grpc/grpc": "1.34"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "科学捜査官",
+            "email": "airamusume@gmail.com"
+        }
+    ]
+}
